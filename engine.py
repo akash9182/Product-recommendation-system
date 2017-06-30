@@ -2,7 +2,7 @@ import pandas as pd
 import time
 import redis
 from flask import current_app
-from sklearn.feature_extraction.text import TfidVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 def info(message):
@@ -34,7 +34,7 @@ class ContenEngine(object):
 		# 				All values of n such that min_n <= n <= max_n will be used.
 		# min_df :	When building the vocabulary ignore terms that have a document 
 		# 			frequency strictly lower than the given threshold. 
-		tf = TfidVectorizer(analyzer = 'word', ngram_range=(1,3), min_df=0, stop_words='english')
+		tf = TfidfVectorizer(analyzer = 'word', ngram_range=(1,3), min_df=0, stop_words='english')
 		
 		# fit_transform	:	Learn vocabulary and idf, return term-document matrix.	
 		tfidf_matrix = tf.fit_transform(ds['description'])	
@@ -42,12 +42,12 @@ class ContenEngine(object):
 		cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 
 		for idx, row in ds.iterrows():
-			similar_inidices = cosine_similarities[idx].argsort()[:-100:-1]
-			similar_items = [(cosine_similarities[idx][i]) for i in similar_inidices]
+			similar_inidices = cosine_similarities[idx].argsort()[::-1]
+			similar_items = [(cosine_similarities[idx][i], ds['id'][i]) for i in similar_inidices]
 
 
-			flattend = sum(similar_items[1:], ())
-			self._r.zadd(self.SIMILAR_KEY % row['id'], *flattend)
+			flattened = sum(similar_items[1:], ())
+			self._r.zadd(self.SIMILAR_KEY % row['id'], *flattened)
 
 
 	def predict(self, item_id, num):
@@ -58,4 +58,4 @@ class ContenEngine(object):
 		return  self._r.zrange(self.SIMILAR_KEY % item_id, 0, num-1, withscores = True, desc = True)
 
 
-content_enigine = ContenEngine()
+content_engine = ContenEngine()
