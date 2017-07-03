@@ -8,15 +8,15 @@ Work in progress for integrating other features.
 
     curl -X POST -H "X-API-TOKEN: FOOBAR1" -H "Content-Type: application/json; charset=utf-8" http://127.0.0.1:5000/predict -d "{"item":18,"num":10}"
 
-'''
+```
 
 For the below product our engine recommends 
 3,"Active sport briefs - These superbreathable no-fly briefs are the minimalist's choice for high-octane endeavors. Made from a blend of fast-wicking, quick-drying 93% polyester (71% recycled) and 7% spandex that has both stretch-mesh (for support) and open mesh (for cooling airflow). Soft edging at the leg openings and a seamless waist won't roll or create friction against layers. With a smooth front panel for opacity. Recyclable through the Common Threads Recycling Program.
 
-'''
+```
 
 Predicts
-'''
+```
 
 [["2", 0.41816639921615745], ["299", 0.1140184812203873], ["495", 0.11053729446572887]]
 ids ,probability of similarity
@@ -27,5 +27,5 @@ ids ,probability of similarity
 
 495,"Active briefs - These featherweight, quick-wicking briefs keep you comfortable and dry whether you travel by bus, kayak or stubborn yak. The nonbinding waistband is brushed for next-to-skin softness, and elastic in the leg openings provides a supple fit without constricting. With reversed-out stitching for chafe-free comfort, an easy-access, functional fly and a supportive front panel. Made from 100% polyester (54% recycled) with moisture-wicking performance and Gladiodor natural odor control for the garment. Recyclable through the Common Threads Recycling Program
 
-'''
-Source code used from [groveco](https://github.com/groveco/content-engine)
+```
+Initial Source code used from [groveco](https://github.com/groveco/content-engine)
